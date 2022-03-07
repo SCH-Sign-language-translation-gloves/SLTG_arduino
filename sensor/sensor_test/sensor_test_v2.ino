@@ -1,6 +1,6 @@
 #include <Arduino_LSM6DS3.h>
 
-int flexpin_1 = A7; //센서와 연결된 아날로그 핀 설정
+int flexpin_1 = A7; //센서와 연결된 아날로그 핀 설정 A4, A5는 안됨.
 int flexpin_2 = A3;
 int flexpin_3 = A2;
 int flexpin_4 = A1;
@@ -15,16 +15,6 @@ void setup() {
 
     while (1);
   }
-  Serial.print("Accelerometer sample rate = ");
-  Serial.print(IMU.accelerationSampleRate());
-  Serial.print("Gyroscope sample rate = ");
-  Serial.print(IMU.gyroscopeSampleRate());
-  Serial.println(" Hz");
-  Serial.println();
-//  Serial.println("Acceleration in G's");
-//  Serial.println("X\tY\tZ");
-//  Serial.println("Gyroscope in degrees/second");
-//  Serial.println("X\tY\tZ");
 }
 
 void loop() {
@@ -47,6 +37,7 @@ void loop() {
   Serial.print(z);
   Serial.print('\t');
 
+
   IMU.readGyroscope(gx, gy,gz);
 
   Serial.print(gx);
@@ -54,28 +45,29 @@ void loop() {
   Serial.print(gy);
   Serial.print('\t');
   Serial.print(gz);
+  Serial.print('\t');
 
 
   flexVal_1 = analogRead(flexpin_1);    // 센서로 부터 보내오는 값을 입력 받는다.(0-1023)
-  Serial.print('\t');
+  //Serial.print("sensor_1: ");
   Serial.print(flexVal_1);  // sensor:0000로 출력한다(0000값은 센서로 부터 읽어 온 값)
-
+  Serial.print('\t');
   flexVal_2 = analogRead(flexpin_2);
-  Serial.print('\t');
+  //Serial.print("sensor_2: ");
   Serial.print(flexVal_2); 
-
+  Serial.print('\t');
   flexVal_3 = analogRead(flexpin_3);
-  Serial.print('\t');
+  //Serial.print("sensor_3: ");
   Serial.print(flexVal_3); 
-
+  Serial.print('\t');
   flexVal_4 = analogRead(flexpin_4);
-  Serial.print('\t');
+  //Serial.print("sensor_4: ");
   Serial.print(flexVal_4); 
-
-  flexVal_5 = analogRead(flexpin_5);
   Serial.print('\t');
+  flexVal_5 = analogRead(flexpin_5);
+  //Serial.print("sensor_5: ");
   Serial.println(flexVal_5); 
 
-  Serial.println();
+  //Serial.println();
   delay(1000);
 }
