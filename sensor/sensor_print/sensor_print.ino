@@ -1,10 +1,10 @@
 #include <Arduino_LSM6DS3.h>
 
-int flexpin_1 = A7; //센서와 연결된 아날로그 핀 설정
-int flexpin_2 = A3;
+int flexpin_5 = A7; //센서와 연결된 아날로그 핀 설정
+int flexpin_4 = A3;
 int flexpin_3 = A2;
-int flexpin_4 = A1;
-int flexpin_5 = A0;
+int flexpin_2 = A1;
+int flexpin_1 = A0;
 
 void setup() {
   Serial.begin(9600); // 시리얼 통신 속도를 9600로 설정.
@@ -82,61 +82,61 @@ void loop() {
     Serial.println("ㅌ");
     }  
 
-  //모음 if 문 
- if (x < 0.51 && y< -0.83 && 0.08<z<0.26 && f1 <= 380 && f2 <= 349 && f3 <=223 && f4 <= 472 && f5 <=462){
-    Serial.println("ㅏ");
-    } 
-  else if (f1 <= 417 && f2 <= 347 && f3 <=391 && f4 <= 481 && f5 <=429){
-    Serial.println("ㅑ");
-    } 
-  else if (x<0.85 && y< -0.56 && z<0.08 &&f1 <= 385 && f2 <= 343 && f3 <=218 && f4 <= 485 && f5 <=447){
-    Serial.println("ㅓ");
-    }
-  else if (f1 <= 412 && f2 <= 346 && f3 <=377 && f4 <= 486 && f5 <=427){
-    Serial.println("ㅕ");
-    }
-  else if (x>0 && y< 0 && z<0 && f1 <= 386 && f2 <= 350 && f3 <=219 && f4 <= 472 && f5 <=452){
-    Serial.println("ㅗ");
-    }
-  else if (f1 <= 409 && f2 <= 355 && f3 <=386 && f4 <= 475 && f5 <=452){
-    Serial.println("ㅛ");
-    }
-  else if (f1 <= 400 && f2 <= 365 && f3 <=237 && f4 <= 474 && f5 <=485){
-    Serial.println("ㅜ");
-    }
-  else if (f1 <= 416 && f2 <= 384 && f3 <=318 && f4 <= 468 && f5 <=454){
-    Serial.println("ㅠ");
-    }
-  else if (f1 <= 412 && f2 <= 372 && f3 <=255 && f4 <= 490 && f5 <=474){
-    Serial.println("ㅡ");
-    }
-  else if (f1 <= 524 && f2 <= 391 && f3 <=237 && f4 <= 296 && f5 <=459){
-    Serial.println("ㅣ");
-    }
-  else if (f1 <= 432 && f2 <= 489 && f3 <=394 && f4 <= 487 && f5 <=456){
-    Serial.println("ㅒ");
-    }
-  else if (f1 <= 533 && f2 <= 367 && f3 <=232 && f4 <= 467 && f5 <=458){
-    Serial.println("ㅐ");
-    }
-  else if (f1 <= 540 && f2 <= 363 && f3 <=228 && f4 <= 473 && f5 <=454){
-    Serial.println("ㅔ");
-    }
-  else if (f1 <= 541 && f2 <= 374 && f3 <=316 && f4 <= 484 && f5 <=448){
-    Serial.println("ㅖ");
-    }
-  else if (f1 <= 536 && f2 <= 344 && f3 <=217 && f4 <= 458 && f5 <=452){
-    Serial.println("ㅚ");
-    }
-  else if (f1 <= 432 && f2 <= 489 && f3 <=394 && f4 <= 487 && f5 <=456){
-    Serial.println("ㅙ");
-    }
-  else if (f1 <= 525 && f2 <= 378 && f3 <=217 && f4 <= 461 && f5 <=456){
-    Serial.println("ㅟ");
-    }
-  else if (f1 <= 432 && f2 <= 489 && f3 <=394 && f4 <= 487 && f5 <=456){
-    Serial.println("ㅢ");
-    } 
+//  //모음 if 문 
+// if (x < 0.51 && y< -0.83 && 0.08<z<0.26 && f1 <= 380 && f2 <= 349 && f3 <=223 && f4 <= 472 && f5 <=462){
+//    Serial.println("ㅏ");
+//    } 
+//  else if (f1 <= 417 && f2 <= 347 && f3 <=391 && f4 <= 481 && f5 <=429){
+//    Serial.println("ㅑ");
+//    } 
+//  else if (x<0.85 && y< -0.56 && z<0.08 &&f1 <= 385 && f2 <= 343 && f3 <=218 && f4 <= 485 && f5 <=447){
+//    Serial.println("ㅓ");
+//    }
+//  else if (f1 <= 412 && f2 <= 346 && f3 <=377 && f4 <= 486 && f5 <=427){
+//    Serial.println("ㅕ");
+//    }
+//  else if (x>0 && y< 0 && z<0 && f1 <= 386 && f2 <= 350 && f3 <=219 && f4 <= 472 && f5 <=452){
+//    Serial.println("ㅗ");
+//    }
+//  else if (f1 <= 409 && f2 <= 355 && f3 <=386 && f4 <= 475 && f5 <=452){
+//    Serial.println("ㅛ");
+//    }
+//  else if (f1 <= 400 && f2 <= 365 && f3 <=237 && f4 <= 474 && f5 <=485){
+//    Serial.println("ㅜ");
+//    }
+//  else if (f1 <= 416 && f2 <= 384 && f3 <=318 && f4 <= 468 && f5 <=454){
+//    Serial.println("ㅠ");
+//    }
+//  else if (f1 <= 412 && f2 <= 372 && f3 <=255 && f4 <= 490 && f5 <=474){
+//    Serial.println("ㅡ");
+//    }
+//  else if (f1 <= 524 && f2 <= 391 && f3 <=237 && f4 <= 296 && f5 <=459){
+//    Serial.println("ㅣ");
+//    }
+//  else if (f1 <= 432 && f2 <= 489 && f3 <=394 && f4 <= 487 && f5 <=456){
+//    Serial.println("ㅒ");
+//    }
+//  else if (f1 <= 533 && f2 <= 367 && f3 <=232 && f4 <= 467 && f5 <=458){
+//    Serial.println("ㅐ");
+//    }
+//  else if (f1 <= 540 && f2 <= 363 && f3 <=228 && f4 <= 473 && f5 <=454){
+//    Serial.println("ㅔ");
+//    }
+//  else if (f1 <= 541 && f2 <= 374 && f3 <=316 && f4 <= 484 && f5 <=448){
+//    Serial.println("ㅖ");
+//    }
+//  else if (f1 <= 536 && f2 <= 344 && f3 <=217 && f4 <= 458 && f5 <=452){
+//    Serial.println("ㅚ");
+//    }
+//  else if (f1 <= 432 && f2 <= 489 && f3 <=394 && f4 <= 487 && f5 <=456){
+//    Serial.println("ㅙ");
+//    }
+//  else if (f1 <= 525 && f2 <= 378 && f3 <=217 && f4 <= 461 && f5 <=456){
+//    Serial.println("ㅟ");
+//    }
+//  else if (f1 <= 432 && f2 <= 489 && f3 <=394 && f4 <= 487 && f5 <=456){
+//    Serial.println("ㅢ");
+//    } 
 
   else {Serial.println("None");}
   
