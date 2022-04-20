@@ -15,16 +15,6 @@ void setup() {
 
     while (1);
   }
-  Serial.print("Accelerometer sample rate = ");
-  Serial.print(IMU.accelerationSampleRate());
-  Serial.print("Gyroscope sample rate = ");
-  Serial.print(IMU.gyroscopeSampleRate());
-  Serial.println(" Hz");
-  Serial.println();
-  Serial.println("Acceleration in G's");
-  Serial.println("X\tY\tZ");
-  Serial.println("Gyroscope in degrees/second");
-  Serial.println("X\tY\tZ");
 }
 
 void loop() {
@@ -44,7 +34,8 @@ void loop() {
   Serial.print('\t');
   Serial.print(y);
   Serial.print('\t');
-  Serial.println(z);
+  Serial.print(z);
+  Serial.print('\t');
 
 
   IMU.readGyroscope(gx, gy,gz);
@@ -53,29 +44,30 @@ void loop() {
   Serial.print('\t');
   Serial.print(gy);
   Serial.print('\t');
-  Serial.println(gz);
+  Serial.print(gz);
+  Serial.print('\t');
 
 
   flexVal_1 = analogRead(flexpin_1);    // 센서로 부터 보내오는 값을 입력 받는다.(0-1023)
-  Serial.print("sensor_1: ");
-  Serial.println(flexVal_1);  // sensor:0000로 출력한다(0000값은 센서로 부터 읽어 온 값)
-
+  //Serial.print("sensor_1: ");
+  Serial.print(flexVal_1);  // sensor:0000로 출력한다(0000값은 센서로 부터 읽어 온 값)
+  Serial.print('\t');
   flexVal_2 = analogRead(flexpin_2);
-  Serial.print("sensor_2: ");
-  Serial.println(flexVal_2); 
-
+  //Serial.print("sensor_2: ");
+  Serial.print(flexVal_2); 
+  Serial.print('\t');
   flexVal_3 = analogRead(flexpin_3);
-  Serial.print("sensor_3: ");
-  Serial.println(flexVal_3); 
-
+  //Serial.print("sensor_3: ");
+  Serial.print(flexVal_3); 
+  Serial.print('\t');
   flexVal_4 = analogRead(flexpin_4);
-  Serial.print("sensor_4: ");
-  Serial.println(flexVal_4); 
-
+  //Serial.print("sensor_4: ");
+  Serial.print(flexVal_4); 
+  Serial.print('\t');
   flexVal_5 = analogRead(flexpin_5);
-  Serial.print("sensor_5: ");
+  //Serial.print("sensor_5: ");
   Serial.println(flexVal_5); 
 
-  Serial.println();
-  delay(1000);
+  //Serial.println();
+  delay(300);
 }
