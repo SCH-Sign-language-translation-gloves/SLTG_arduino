@@ -43,7 +43,7 @@ void setup() {
     while (1);
   }
 
- BLE.setLocalName("GY-521");
+ BLE.setLocalName("SLTG_BLE_test");
  BLE.setAdvertisedService(sensorService);
  sensorService.addCharacteristic(xSensorLevel);
  sensorService.addCharacteristic(ySensorLevel);

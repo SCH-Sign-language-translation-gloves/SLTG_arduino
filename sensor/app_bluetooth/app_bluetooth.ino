@@ -26,7 +26,7 @@ void setup() {
   while (1);
  }
 
- BLE.setLocalName("Gyroscope");
+ BLE.setLocalName("App_BLE_test");
  BLE.setAdvertisedService(sensorService);
  sensorService.addCharacteristic(xSensorLevel);
  sensorService.addCharacteristic(ySensorLevel);
