@@ -10,6 +10,19 @@ BLEStringCharacteristic zSensorLevel("5748a25d-1834-4c68-a49b-81bf3aeb2e50", BLE
 BLEStringCharacteristic axSensorLevel("3aae57bc-efe5-4a17-8f24-f610b1b985e5", BLERead | BLENotify,15);
 BLEStringCharacteristic aySensorLevel("7ad8f8f6-2da4-45a1-adbd-ab5a83351426", BLERead | BLENotify,15);
 BLEStringCharacteristic azSensorLevel("7cac39b1-89e0-47be-aaf4-30277f05d763", BLERead | BLENotify,15);
+//Flex
+BLEStringCharacteristic flex1Sensor("a9d33c96-c5cf-41c6-bec4-3e28305ae1ab", BLERead | BLENotify,15);
+BLEStringCharacteristic flex2Sensor("112170b3-c9f0-4f4c-84fa-d440ce80ff06", BLERead | BLENotify,15);
+BLEStringCharacteristic flex3Sensor("442b3f31-8d10-494d-bef4-85c0faa9d28a", BLERead | BLENotify,15);
+BLEStringCharacteristic flex4Sensor("29e632b7-f055-4daa-beb3-f66635a38ad2", BLERead | BLENotify,15);
+BLEStringCharacteristic flex5Sensor("00481010-9c4e-4ab5-9e37-d2641d6c7755", BLERead | BLENotify,15);
+
+//flex sensor pin
+int flexpin_5 = A7;
+int flexpin_4 = A3;
+int flexpin_3 = A2;
+int flexpin_2 = A1;
+int flexpin_1 = A0;
 
 // last sensor data
 float oldXLevel = 0;
@@ -19,6 +32,12 @@ float oldZLevel = 0;
 float a_oldXLevel = 0;
 float a_oldYLevel = 0;
 float a_oldZLevel = 0;
+
+int old_flex1 = 0;
+int old_flex2 = 0;
+int old_flex3 = 0;
+int old_flex4 = 0;
+int old_flex5 = 0;
 
 long previousMillis = 0;
 
@@ -45,6 +64,11 @@ void setup() {
  sensorService.addCharacteristic(axSensorLevel);
  sensorService.addCharacteristic(aySensorLevel);
  sensorService.addCharacteristic(azSensorLevel);
+ sensorService.addCharacteristic(flex1Sensor);
+ sensorService.addCharacteristic(flex2Sensor);
+ sensorService.addCharacteristic(flex3Sensor);
+ sensorService.addCharacteristic(flex4Sensor);
+ sensorService.addCharacteristic(flex5Sensor);
  BLE.addService(sensorService);
 
  BLE.advertise();
@@ -68,6 +92,7 @@ void updateGyroscopeLevel() {
   zSensorLevel.writeValue(String(z));
   oldZLevel = z;
   }
+ Serial.print("Gyro :");
  Serial.print(x);
  Serial.print('\t');
  Serial.print(y);
@@ -77,31 +102,76 @@ void updateGyroscopeLevel() {
 }
  
  void updateAccelerationLevel() {
- float x, y, z;
+ float ax, ay, az;
  
  if (IMU.accelerationAvailable()) {
-  IMU.readAcceleration(x, y, z);
+  IMU.readAcceleration(ax, ay, az);
 
-   if (x != a_oldXLevel) {
-  axSensorLevel.writeValue(String(x));
-  a_oldXLevel = x;
+   if (ax != a_oldXLevel) {
+  axSensorLevel.writeValue(String(ax));
+  a_oldXLevel = ax;
    }
   
-   if (y != a_oldYLevel) {
-    aySensorLevel.writeValue(String(y));
-    a_oldYLevel = y;
+   if (ay != a_oldYLevel) {
+    aySensorLevel.writeValue(String(ay));
+    a_oldYLevel = ay;
    }
   
-   if (z != a_oldZLevel) {
-    azSensorLevel.writeValue(String(z));
-    a_oldZLevel = z;
+   if (az != a_oldZLevel) {
+    azSensorLevel.writeValue(String(az));
+    a_oldZLevel = az;
    }
-  Serial.print(x);
+  Serial.print("Acceleration :");
+  Serial.print(ax);
   Serial.print('\t');
-  Serial.print(y);
+  Serial.print(ay);
   Serial.print('\t');
-  Serial.println(z);
+  Serial.println(az);
   }
+ }
+ void updateflexsensor(){
+  int flex1 = analogRead(flexpin_1);  //센서값을 저장할 변수 설정
+  int flex2 = analogRead(flexpin_2); 
+  int flex3 = analogRead(flexpin_3);
+  int flex4 = analogRead(flexpin_4);
+  int flex5 = analogRead(flexpin_5);
+  
+  if (flex1 != old_flex1) {
+  flex1Sensor.writeValue(String(flex1));
+  old_flex1 = flex1;
+   }
+  
+  if (flex2 != old_flex2) {
+  flex2Sensor.writeValue(String(flex2));
+  old_flex2 = flex2;
+   }
+  
+  if (flex3 != old_flex3) {
+  flex3Sensor.writeValue(String(flex3));
+  old_flex3 = flex3;
+   }
+   
+  if (flex4 != old_flex4) {
+  flex4Sensor.writeValue(String(flex4));
+  old_flex4 = flex4;
+   }
+   
+  if (flex5 != old_flex5) {
+  flex5Sensor.writeValue(String(flex5));
+  old_flex5 = flex5;
+   }
+  
+  Serial.print("flex :");
+  Serial.print(flex1);
+  Serial.print('\t');
+  Serial.print(flex2);
+  Serial.print('\t');
+  Serial.print(flex3);
+  Serial.print('\t');
+  Serial.print(flex4);
+  Serial.print('\t');
+  Serial.println(flex5);
+  
  }
  
  void loop() {
@@ -114,6 +184,7 @@ void updateGyroscopeLevel() {
    //long currentMillis = millis();
    updateGyroscopeLevel();
    updateAccelerationLevel();
+   updateflexsensor();
    delay(300);
   }
 
