@@ -11,6 +11,7 @@ BLEStringCharacteristic axSensorLevel("3aae57bc-efe5-4a17-8f24-f610b1b985e5", BL
 BLEStringCharacteristic aySensorLevel("7ad8f8f6-2da4-45a1-adbd-ab5a83351426", BLERead | BLENotify,15);
 BLEStringCharacteristic azSensorLevel("7cac39b1-89e0-47be-aaf4-30277f05d763", BLERead | BLENotify,15);
 
+
 // last sensor data
 float oldXLevel = 0;
 float oldYLevel = 0;
@@ -68,6 +69,7 @@ void updateGyroscopeLevel() {
   zSensorLevel.writeValue(String(z));
   oldZLevel = z;
   }
+ Serial.print("Gyro :");
  Serial.print(x);
  Serial.print('\t');
  Serial.print(y);
@@ -77,30 +79,31 @@ void updateGyroscopeLevel() {
 }
  
  void updateAccelerationLevel() {
- float x, y, z;
+ float ax, ay, az;
  
  if (IMU.accelerationAvailable()) {
-  IMU.readAcceleration(x, y, z);
+  IMU.readAcceleration(ax, ay, az);
 
-   if (x != a_oldXLevel) {
-  axSensorLevel.writeValue(String(x));
-  a_oldXLevel = x;
+   if (ax != a_oldXLevel) {
+  axSensorLevel.writeValue(String(ax));
+  a_oldXLevel = ax;
    }
   
-   if (y != a_oldYLevel) {
-    aySensorLevel.writeValue(String(y));
-    a_oldYLevel = y;
+   if (ay != a_oldYLevel) {
+    aySensorLevel.writeValue(String(ay));
+    a_oldYLevel = ay;
    }
   
-   if (z != a_oldZLevel) {
-    azSensorLevel.writeValue(String(z));
-    a_oldZLevel = z;
+   if (az != a_oldZLevel) {
+    azSensorLevel.writeValue(String(az));
+    a_oldZLevel = az;
    }
-  Serial.print(x);
+  Serial.print("Acceleration :");
+  Serial.print(ax);
   Serial.print('\t');
-  Serial.print(y);
+  Serial.print(ay);
   Serial.print('\t');
-  Serial.println(z);
+  Serial.println(az);
   }
  }
  
