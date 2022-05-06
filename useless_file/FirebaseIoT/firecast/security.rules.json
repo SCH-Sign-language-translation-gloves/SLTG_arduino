@@ -1,0 +1,7 @@
+{
+    "rules": {
+      "$deviceId": {
+        ".write": "auth.uid != null && auth.token.deviceId === $deviceId"
+      }
+    }
+  }
