@@ -43,7 +43,7 @@ void setup() {
     while (1);
   }
 
- BLE.setLocalName("GY-521");
+ BLE.setLocalName("SLTG_BLE_test");
  BLE.setAdvertisedService(sensorService);
  sensorService.addCharacteristic(xSensorLevel);
  sensorService.addCharacteristic(ySensorLevel);
@@ -70,8 +70,8 @@ void updateGyroscopeLevel() {
   IMU.readGyroscope(x, y, z);
 
    if (x != oldXLevel) {
-  xSensorLevel.writeValue(String(x));
-  oldXLevel = x;
+    xSensorLevel.writeValue(String(x));
+    oldXLevel = x;
    }
   
    if (y != oldYLevel) {
