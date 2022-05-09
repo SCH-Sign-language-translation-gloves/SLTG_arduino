@@ -1,3 +1,5 @@
+#include <ArduinoBLE.h>
+
 ////1. Include Firebase Arduino WiFiNINA library (this library)
 //#include "Firebase_Arduino_WiFiNINA.h"
 //

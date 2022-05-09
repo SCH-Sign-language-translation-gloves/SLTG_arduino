@@ -70,8 +70,8 @@ void updateGyroscopeLevel() {
   IMU.readGyroscope(x, y, z);
 
    if (x != oldXLevel) {
-  xSensorLevel.writeValue(String(x));
-  oldXLevel = x;
+    xSensorLevel.writeValue(String(x));
+    oldXLevel = x;
    }
   
    if (y != oldYLevel) {
