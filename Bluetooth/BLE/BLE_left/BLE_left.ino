@@ -1,7 +1,7 @@
 #include <ArduinoBLE.h>
 #include <Arduino_LSM6DS3.h>
 
-BLEService sensorService("66df5109-edde-4f8a-a5e1-02e02a69cbd5");
+BLEService sensorService("354e8943-6cb2-4620-83f7-0b848eeaa76d");
 //자이로(각속도)
 BLEStringCharacteristic xSensorLevel("120d8460-76cc-4ad1-b3d7-ebdbf681ca38", BLERead | BLENotify,15);
 BLEStringCharacteristic ySensorLevel("9dc7f95f-ec49-47c5-ad76-36af6293a5e4", BLERead | BLENotify,15);
@@ -18,11 +18,11 @@ BLEStringCharacteristic flex4Sensor("48ea1dcb-e94c-4158-89a1-c4a4d7265a4c", BLER
 BLEStringCharacteristic flex5Sensor("368e79cc-5280-41dd-a0a4-575cc5385703", BLERead | BLENotify,15);
 
 //flex sensor pin
-int flexpin_5 = A0;
-int flexpin_4 = A1;
+int flexpin_5 = A7;
+int flexpin_4 = A3;
 int flexpin_3 = A2;
-int flexpin_2 = A3;
-int flexpin_1 = A7;
+int flexpin_2 = A1;
+int flexpin_1 = A0;
 
 // last sensor data
 float oldXLevel = 0;
@@ -75,55 +75,70 @@ void setup() {
  Serial.println("Bluetooth device active, waiting for connections...");
 }
 
-void updateLevel() {
- float x, y, z;
- float ax, ay, az;
- int flex1 = analogRead(flexpin_1);  //센서값을 저장할 변수 설정
- int flex2 = analogRead(flexpin_2); 
- int flex3 = analogRead(flexpin_3);
- int flex4 = analogRead(flexpin_4);
- int flex5 = analogRead(flexpin_5);
+void updateGyroscopeLevel() {
+ float x, y, z, ax, ay, az;
  
- if (IMU.gyroscopeAvailable()& IMU.accelerationAvailable()) {
-  IMU.readGyroscope(x, y, z);
-  IMU.readAcceleration(ax, ay, az);
-  
+ if (IMU.gyroscopeAvailable() & IMU.accelerationAvailable()) {
+  IMU.readGyroscope(x, y, z); // Gyro
+  IMU.readAcceleration(ax, ay, az); // Acceleration
+  int flex1 = analogRead(flexpin_1);  //센서값을 저장할 변수 설정
+  int flex2 = analogRead(flexpin_2); 
+  int flex3 = analogRead(flexpin_3);
+  int flex4 = analogRead(flexpin_4);
+  int flex5 = analogRead(flexpin_5);
+
+ xSensorLevel.writeValue(String(x)+"\t"+String(y)+"\t"+String(z)+"\t"+String(ax)+"\t"+String(ay)+"\t"+String(az)+"\t"+String(flex1)+'\t'+String(flex2)+'\t'+String(flex3)+'\t'+String(flex4)+'\t'+String(flex5));
+
   if (x != oldXLevel) {
    oldXLevel = x;
   }
  if (y != oldYLevel) {
   oldYLevel = y;
  }
- 
  if (z != oldZLevel) {
   oldZLevel = z;
   }
-  
- if (ax != a_oldXLevel) {
-  a_oldXLevel = ax;
-   }
-  
- if (ay != a_oldYLevel) {
-    a_oldYLevel = ay;
-   }
-  
- if (az != a_oldZLevel) {
-    a_oldZLevel = az;
-   }
-  
  Serial.print("Gyro :");
  Serial.print(x);
  Serial.print('\t');
  Serial.print(y);
  Serial.print('\t');
  Serial.println(z);
- Serial.print("Acceleration :");
- Serial.print(ax);
- Serial.print('\t');
- Serial.print(ay);
- Serial.print('\t');
- Serial.println(az);
  }
+}
+ 
+ void updateAccelerationLevel() {
+ float ax, ay, az;
+ 
+ if (IMU.accelerationAvailable()) {
+  IMU.readAcceleration(ax, ay, az);
+
+   if (ax != a_oldXLevel) {
+  a_oldXLevel = ax;
+   }
+  
+   if (ay != a_oldYLevel) {
+    a_oldYLevel = ay;
+   }
+  
+   if (az != a_oldZLevel) {
+    a_oldZLevel = az;
+   }
+  Serial.print("Acceleration :");
+  Serial.print(ax);
+  Serial.print('\t');
+  Serial.print(ay);
+  Serial.print('\t');
+  Serial.println(az);
+  }
+ }
+ void updateflexsensor(){
+  int flex1 = analogRead(flexpin_1);  //센서값을 저장할 변수 설정
+  int flex2 = analogRead(flexpin_2); 
+  int flex3 = analogRead(flexpin_3);
+  int flex4 = analogRead(flexpin_4);
+  int flex5 = analogRead(flexpin_5);
+  
   if (flex1 != old_flex1) {
   old_flex1 = flex1;
    }
@@ -141,7 +156,6 @@ void updateLevel() {
    }
    
   if (flex5 != old_flex5) {
-  flex5Sensor.writeValue("LEFT HAND"+"\t"+String(x)+"\t"+String(y)+"\t"+String(z)+"\t"+String(ax)+"\t"+String(ay)+"\t"+String(az)+"\t"+String(flex1)+'\t'+String(flex2)+'\t'+String(flex3)+'\t'+String(flex4)+'\t'+String(flex5));
   old_flex5 = flex5;
    }
   
@@ -155,18 +169,20 @@ void updateLevel() {
   Serial.print(flex4);
   Serial.print('\t');
   Serial.println(flex5);
-}
+  
+ }
  
  void loop() {
  BLEDevice central = BLE.central();
- 
  if (central) {
   Serial.print("Connected to central: ");
   Serial.println(central.address());
 
   while (central.connected()) {
    //long currentMillis = millis();
-   updateLevel();
+   updateGyroscopeLevel();
+   updateAccelerationLevel();
+   updateflexsensor();
    delay(300);
   }
 
