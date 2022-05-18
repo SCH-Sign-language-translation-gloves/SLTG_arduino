@@ -3,7 +3,7 @@
 
 BLEService sensorService("66df5109-edde-4f8a-a5e1-02e02a69cbd5");
 //자이로(각속도)
-BLEStringCharacteristic xSensorLevel("741c12b9-e13c-4992-8a5e-fce46dec0bff", BLERead | BLENotify,15);
+BLEStringCharacteristic xSensorLevel("741c12b9-e13c-4992-8a5e-fce46dec0bff", BLERead | BLENotify,100); // 길이 변경
 BLEStringCharacteristic ySensorLevel("baad41b2-f12e-4322-9ba6-22cd9ce09832", BLERead | BLENotify,15);
 BLEStringCharacteristic zSensorLevel("5748a25d-1834-4c68-a49b-81bf3aeb2e50", BLERead | BLENotify,15);
 //가속도
@@ -75,55 +75,70 @@ void setup() {
  Serial.println("Bluetooth device active, waiting for connections...");
 }
 
-void updateLevel() {
- float x, y, z;
- float ax, ay, az;
- int flex1 = analogRead(flexpin_1);  //센서값을 저장할 변수 설정
- int flex2 = analogRead(flexpin_2); 
- int flex3 = analogRead(flexpin_3);
- int flex4 = analogRead(flexpin_4);
- int flex5 = analogRead(flexpin_5);
+void updateGyroscopeLevel() {
+ float x, y, z, ax, ay, az;
  
- if (IMU.gyroscopeAvailable()& IMU.accelerationAvailable()) {
-  IMU.readGyroscope(x, y, z);
-  IMU.readAcceleration(ax, ay, az);
-  
+ if (IMU.gyroscopeAvailable() & IMU.accelerationAvailable()) {
+  IMU.readGyroscope(x, y, z); // Gyro
+  IMU.readAcceleration(ax, ay, az); // Acceleration
+  int flex1 = analogRead(flexpin_1);  //센서값을 저장할 변수 설정
+  int flex2 = analogRead(flexpin_2); 
+  int flex3 = analogRead(flexpin_3);
+  int flex4 = analogRead(flexpin_4);
+  int flex5 = analogRead(flexpin_5);
+
+ xSensorLevel.writeValue(String(x)+"\t"+String(y)+"\t"+String(z)+"\t"+String(ax)+"\t"+String(ay)+"\t"+String(az)+"\t"+String(flex1)+'\t'+String(flex2)+'\t'+String(flex3)+'\t'+String(flex4)+'\t'+String(flex5));
+
   if (x != oldXLevel) {
    oldXLevel = x;
   }
  if (y != oldYLevel) {
   oldYLevel = y;
  }
- 
  if (z != oldZLevel) {
   oldZLevel = z;
   }
-  
- if (ax != a_oldXLevel) {
-  a_oldXLevel = ax;
-   }
-  
- if (ay != a_oldYLevel) {
-    a_oldYLevel = ay;
-   }
-  
- if (az != a_oldZLevel) {
-    a_oldZLevel = az;
-   }
-  
  Serial.print("Gyro :");
  Serial.print(x);
  Serial.print('\t');
  Serial.print(y);
  Serial.print('\t');
  Serial.println(z);
- Serial.print("Acceleration :");
- Serial.print(ax);
- Serial.print('\t');
- Serial.print(ay);
- Serial.print('\t');
- Serial.println(az);
  }
+}
+ 
+ void updateAccelerationLevel() {
+ float ax, ay, az;
+ 
+ if (IMU.accelerationAvailable()) {
+  IMU.readAcceleration(ax, ay, az);
+
+   if (ax != a_oldXLevel) {
+  a_oldXLevel = ax;
+   }
+  
+   if (ay != a_oldYLevel) {
+    a_oldYLevel = ay;
+   }
+  
+   if (az != a_oldZLevel) {
+    a_oldZLevel = az;
+   }
+  Serial.print("Acceleration :");
+  Serial.print(ax);
+  Serial.print('\t');
+  Serial.print(ay);
+  Serial.print('\t');
+  Serial.println(az);
+  }
+ }
+ void updateflexsensor(){
+  int flex1 = analogRead(flexpin_1);  //센서값을 저장할 변수 설정
+  int flex2 = analogRead(flexpin_2); 
+  int flex3 = analogRead(flexpin_3);
+  int flex4 = analogRead(flexpin_4);
+  int flex5 = analogRead(flexpin_5);
+  
   if (flex1 != old_flex1) {
   old_flex1 = flex1;
    }
@@ -141,7 +156,6 @@ void updateLevel() {
    }
    
   if (flex5 != old_flex5) {
-  flex5Sensor.writeValue("RIGHT HAND"+"\t"+String(x)+"\t"+String(y)+"\t"+String(z)+"\t"+String(ax)+"\t"+String(ay)+"\t"+String(az)+"\t"+String(flex1)+'\t'+String(flex2)+'\t'+String(flex3)+'\t'+String(flex4)+'\t'+String(flex5));
   old_flex5 = flex5;
    }
   
@@ -155,18 +169,20 @@ void updateLevel() {
   Serial.print(flex4);
   Serial.print('\t');
   Serial.println(flex5);
-}
+  
+ }
  
  void loop() {
  BLEDevice central = BLE.central();
- 
  if (central) {
   Serial.print("Connected to central: ");
   Serial.println(central.address());
 
   while (central.connected()) {
    //long currentMillis = millis();
-   updateLevel();
+   updateGyroscopeLevel();
+   updateAccelerationLevel();
+   updateflexsensor();
    delay(300);
   }
 
