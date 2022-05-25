@@ -24,12 +24,12 @@ flex_3 = db.reference('sensor_data').child('flex 3').get()
 flex_4 = db.reference('sensor_data').child('flex 4').get()
 flex_5 = db.reference('sensor_data').child('flex 5').get()
 
-zyro_x = db.reference('sensor_data').child('zyro x').get()
-zyro_y = db.reference('sensor_data').child('zyro y').get()
-zyro_z = db.reference('sensor_data').child('zyro z').get()
+gyro_x = db.reference('sensor_data').child('zyro x').get()
+gyro_y = db.reference('sensor_data').child('zyro y').get()
+gyro_z = db.reference('sensor_data').child('zyro z').get()
 
 #firebase에서 받은 데이터들을 다차원배열로 넣기
-fire_list = [accel_x, accel_y, accel_z, zyro_x, zyro_y, zyro_z, flex_1, flex_2, flex_3, flex_4, flex_5]
+fire_list = [accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z, flex_1, flex_2, flex_3, flex_4, flex_5]
 
 #문자열로 받은 데이터들(fire_list)에서 각속도, 가속도 센서 데이터들만 float로 바꿔주기 위한 코드
 sensor_list = []
@@ -46,12 +46,12 @@ for a in range(6, 11):
         N.append(int(fire_list[a][j]))
     sensor_list.append(N)
 
-# zyro_x 데이터 sensor_list[3]
+# gyro_x 데이터 sensor_list[3]
 # 동작 구간만 리스트에 저장.
 interval_data = [[],[],[],[],[],[],[],[],[],[],[]]
 count = 0
 for i in range(len(sensor_list[3])): #section_list의 크기만큼 for문 동작
-    if sensor_list[3][i] >= 22.0: #zyro_x가 일정 수치보다 크거나 같으면 카운드 +1
+    if sensor_list[3][i] >= 22.0: #gyro_x가 일정 수치보다 크거나 같으면 카운드 +1
          count += 1
     if count == 1: #count가 1이면 데이터를 g_list에 저장
         for j in range(len(interval_data)):
