@@ -1,4 +1,5 @@
-from typing import final
+#Operation interval detection
+
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
